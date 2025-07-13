@@ -286,11 +286,11 @@ function firstInteraction() {
   const bubble = document.createElement('div');
   bubble.classList.add('bubble');
 
-  const text = `
-    🌟 ¡Hola! Soy <strong>${CONFIG.botName}</strong> 🤖<br>
-    Antes de comenzar, por favor elige qué te gustaría hacer:<br><br>
-    <button class="option-btn" onclick="handleOptionClick('1')">1: Tomar el control manual de una cámara</button><br>
-    <button class="option-btn" onclick="handleOptionClick('2')">2: Obtener información sobre detecciones</button>
+  const text = `<span data-i18n = "intro1">
+    🌟 ¡Hola! Soy </span><strong>${CONFIG.botName}</strong> 🤖<br>
+    <div <span data-i18n = "intro2">>Antes de comenzar, por favor elige qué te gustaría hacer:</div><br><br>
+    <button class="option-btn" onclick="handleOptionClick('1')"><span data-i18n = "Option1">1: Tomar el control manual de una cámara</button><br>
+    <button class="option-btn" onclick="handleOptionClick('2')"><span data-i18n = "Option2">2: Obtener información sobre detecciones</button>
   `;
 
   bubble.innerHTML = text;
@@ -426,10 +426,10 @@ async function getBotResponse(input) {
           return placesAnswer;
 
         } else if (input === '1'){
-            return '🚧 ¡Ups! Esta opción aún está en desarrollo. 🚧<br>Muy pronto estará disponible para que puedas usarla. <br><br>¡Gracias por tu paciencia! 😊';
+            return '<span data-i18n = "environment4">🚧 ¡Ups! Esta opción aún está en desarrollo.</span>🚧<br><span data-i18n = "environment5">Muy pronto estará disponible para que puedas usarla.</span><br><br><span data-i18n = "environment6">¡Gracias por tu paciencia! 😊</span>';
         } else if (input === '2') {
-            let prettyEnvironmentNames = `👋 ¡Hola! Antes de empezar, necesitas elegir un entorno donde quieras trabajar.<br><br>`;
-            prettyEnvironmentNames += `📋 Aquí tienes la lista de entornos disponibles:<br><br>`;
+            let prettyEnvironmentNames = `<span data-i18n = "environment1">👋 ¡Hola! Antes de empezar, necesitas elegir un entorno donde quieras trabajar.</span><br><br>`;
+            prettyEnvironmentNames += `<span data-i18n = "environment2">📋 Aquí tienes la lista de entornos disponibles:</span><br><br>`;
 
             allEnvironments = await environmentsGetter();
             for (const i of allEnvironments) {
@@ -438,7 +438,7 @@ async function getBotResponse(input) {
                 }
             }
 
-            prettyEnvironmentNames += `<br>✍️ O haz clic sobre el nombre del entorno que te interesa.`;
+            prettyEnvironmentNames += `<br><span data-i18n = "environment3">✍️ O haz clic sobre el nombre del entorno que te interesa.</span>`;
             lastUserOption = 2;
             return prettyEnvironmentNames;
         } else {
@@ -447,10 +447,10 @@ async function getBotResponse(input) {
         }
     } else {
         if (input === '1'){
-            return '🚧 ¡Ups! Esta opción aún está en desarrollo. 🚧<br>Muy pronto estará disponible para que puedas usarla. <br><br>¡Gracias por tu paciencia! 😊';
+            return '<span data-i18n = "environment4">🚧 ¡Ups! Esta opción aún está en desarrollo.</span>🚧<br><span data-i18n = "environment5">Muy pronto estará disponible para que puedas usarla.</span><br><br><span data-i18n = "environment6">¡Gracias por tu paciencia! 😊</span>';
         } else if (input === '2') {
-            let prettyEnvironmentNames = `👋 ¡Hola! Antes de empezar, necesitas elegir un entorno donde quieras trabajar.<br><br>`;
-            prettyEnvironmentNames += `📋 Aquí tienes la lista de entornos disponibles:<br><br>`;
+            let prettyEnvironmentNames = `<span data-i18n = "environment1">👋 ¡Hola! Antes de empezar, necesitas elegir un entorno donde quieras trabajar.</span><br><br>`;
+            prettyEnvironmentNames += `<span data-i18n = "environment2">📋 Aquí tienes la lista de entornos disponibles:</span><br><br>`;
 
             allEnvironments = await environmentsGetter();
             for (const i of allEnvironments) {
@@ -459,11 +459,11 @@ async function getBotResponse(input) {
                 }
             }
 
-            prettyEnvironmentNames += `<br>✍️ O haz clic sobre el nombre del entorno que te interesa.`;
+            prettyEnvironmentNames += `<br><span data-i18n = "environment3">✍️ O haz clic sobre el nombre del entorno que te interesa.</span>`;
             lastUserOption = 2;
             return prettyEnvironmentNames;
         } else {
-            return `❌ Opción no válida. Por favor, elige una opción de la lista para continuar.`;
+            return `<span data-i18n = "environmentError">❌ Opción no válida. Por favor, elige una opción de la lista para continuar.</span>`;
         }
     }
     
@@ -539,6 +539,7 @@ function handleOptionClick(text) {
   getBotResponse(text).then(botResponse => {
     removeThinkingMessage();
     appendMessage('bot', botResponse);
+    updateLanguage(localStorage.getItem("lang") || "es");
   });
 }
 
@@ -636,38 +637,41 @@ async function cargarHistorialReal() {
     const treintaDias = new Date(hoy);
     treintaDias.setDate(hoy.getDate() - 30);
 
-    const secciones = {
-      "Hoy": [],
-      "Últimos 7 días": [],
-      "Últimos 30 días": [],
-      "Más antiguas": []
-    };
-
     data.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+    const lang = localStorage.getItem("lang") || "es";
+
+    const secciones = {
+      [translations[lang].today]: [],
+      [translations[lang].last7]: [],
+      [translations[lang].last30]: [],
+      [translations[lang].older]: []
+    };
 
     data.forEach(conv => {
       const fechaConv = new Date(conv.createdAt);
-      const titulo = conv.messages.length > 0 ? conv.messages[0].text.slice(0, 30) : "(sin mensajes)";
+      const titulo = conv.messages.length > 0 ? conv.messages[0].text.slice(0, 30) : translations[lang].no_messages;
 
       const convHTML = `
         <div class="textHistorialContainer">
-          <p class="textHistorial" onclick="mostrarConversacion('${conv._id}')" id ="${conv._id}">
+          <p class="textHistorial" onclick="mostrarConversacion('${conv._id}')" id="${conv._id}">
             ${titulo}
-            <span class="fa-solid fa-trash" id="${conv._id}" onclick="removeConversation('${conv._id}')"></span>
+            <span class="fa-solid fa-trash" onclick="removeConversation('${conv._id}')"></span>
           </p>
         </div>
       `;
 
       if (fechaConv.toDateString() === hoy.toDateString()) {
-        secciones["Hoy"].push(convHTML);
+        secciones[translations[lang].today].push(convHTML);
       } else if (fechaConv > sieteDias) {
-        secciones["Últimos 7 días"].push(convHTML);
+        secciones[translations[lang].last7].push(convHTML);
       } else if (fechaConv > treintaDias) {
-        secciones["Últimos 30 días"].push(convHTML);
+        secciones[translations[lang].last30].push(convHTML);
       } else {
-        secciones["Más antiguas"].push(convHTML);
+        secciones[translations[lang].older].push(convHTML);
       }
     });
+
 
     for (const [nombre, conversaciones] of Object.entries(secciones)) {
       if (conversaciones.length > 0) {

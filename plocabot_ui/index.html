@@ -24,59 +24,60 @@
       <div class="userProfile">
         <h1 id="nameInitial">A</h1>
       </div>
+
       <div id="userMenu" class="user-menu" style="display: none;">
-        <button id="theme-btn"><i class="fa-solid fa-circle-half-stroke"></i> Tema</button>
+        <button id="theme-btn"><i class="fa-solid fa-circle-half-stroke"></i> <span data-i18n="theme">Tema</span></button>
         <div id="theme-dropdown" class="dropdown-menu hidden">
           <ul>
-            <li id="dark"><a href="#" data-theme="dark"><i class="fa-solid fa-moon"></i> Oscuro</a></li>
-            <li id="light"><a href="#" data-theme="light"><i class="fa-regular fa-sun"></i> Claro</a></li>
+            <li id="dark"><a href="#" data-theme="dark"><i class="fa-solid fa-moon"></i> <span data-i18n="dark">Oscuro</span></a></li>
+            <li id="light"><a href="#" data-theme="light"><i class="fa-regular fa-sun"></i> <span data-i18n="light">Claro</span></a></li>
           </ul>
         </div>
 
-        <button id="voice-btn"><i class="fa-solid fa-wave-square"></i> Voz</button>
+        <button id="voice-btn"><i class="fa-solid fa-wave-square"></i> <span data-i18n="voice">Voz</span></button>
         <div id="voice-dropdown" class="dropdown-menu hidden">
           <ul>
-            <li id="pablo"><a href="#" data-voice="pablo"><i class="fa-solid fa-person"></i> Pablo</a></li>
-            <li id="laura"><a href="#" data-voice="laura"><i class="fa-solid fa-person-dress"></i> Laura</a></li>
+            <li id="pablo"><a href="#" data-voice="pablo"><i class="fa-solid fa-person"></i> <span data-i18n="pablo">Pablo</span></a></li>
+            <li id="laura"><a href="#" data-voice="laura"><i class="fa-solid fa-person-dress"></i> <span data-i18n="laura">Laura</span></a></li>
           </ul>
         </div>
 
         <div class="relative">
           <button id="language-btn" class="bg-white text-gray-700 px-3 py-1 rounded-lg shadow transition duration-300 hover:bg-gray-100">
-            <i class="fa-solid fa-language"></i> Idioma
+            <i class="fa-solid fa-language"></i> <span data-i18n="language">Idioma</span>
           </button>
           <div id="language-dropdown" class="dropdown-menu hidden">
             <ul>
               <li><a href="#">Español</a></li>
               <li><a href="#">English</a></li>
-              <li><a href="#">Français</a></li>
             </ul>
           </div>
         </div>
+
         <hr>
-        <button onclick="logOut()" id="logOut"><i class="fa-solid fa-right-from-bracket"></i> Cerrar sesión</button>
+
+        <button onclick="logOut()" id="logOut"><i class="fa-solid fa-right-from-bracket"></i> <span data-i18n="logout">Cerrar sesión</span></button>
       </div>
-      
+
       <div class="historialContainer" id="historialContainer">
         <div class="topHistorial">
           <a id="urlEmpresa"><img src="" id="logoEmpresa" class="logoHistorial"></a>
         </div>
-        
+
         <div class="itemsHistorial">
           <div class="historial-header">
             <div class="historialNames">
-              <h1>Historial</h1>
+              <h1 data-i18n="history">Historial</h1>
               <i class="fa-duotone fa-solid fa-magnifying-glass" id="searchicon"></i>
             </div>
             <div class="textHistorialContainer">
-              <p class="textHistorial nuevaConversacionItem" id="newChatMain" onclick="newConversation()">
+              <p class="textHistorial nuevaConversacionItem" id="newChatMain" onclick="newConversation()" data-i18n="new_conversation">
                 <i class="fa-duotone fa-solid fa-pen-to-square" id="newChat"></i> Nueva conversación
               </p>
             </div>
           </div>
         </div>
 
-        <!-- HISTORIAL REAL -->
         <div class="mainCenterHistorial" id="historial-list">
           <!-- Aquí se inyectará el historial desde JS -->
         </div>
@@ -89,11 +90,12 @@
       <div class="openHistorialContainer">
         <i class="fa-solid fa-arrow-right" id="openHistorial" onclick="openHistorial()"></i>
       </div>
-      
+
       <div class="chat-container">
         <header>
           <img src="" id="textoBot" class="chatbot_name">
         </header>
+
         <main id="chat">
           <!-- Mensajes del chat -->
         </main>
@@ -110,9 +112,10 @@
         </main>
 
         <form id="chat-form">
-          <input type="text" id="user-input" placeholder="Escribe tu mensaje aquí..." autocomplete="off">
-          <button type="submit" id="enviar">Enviar</button>
+          <input type="text" id="user-input" data-i18n-placeholder="input_placeholder" placeholder="Escribe tu mensaje aquí..." autocomplete="off">
+          <button type="submit" id="enviar" data-i18n="send">Enviar</button>
         </form>
+
         <div class="buttonsExtra">
           <button id="conversationBtn" type="button"><i class="material-icons">graphic_eq</i></button>
           <button id="startBtn" type="button"><i class="fa-solid fa-microphone"></i></button>
@@ -120,6 +123,7 @@
         </div>
       </div>
     </div>
+
 
     <script src="config.js"></script>
     <script>
@@ -203,5 +207,6 @@
       });
     </script>
     <script src="index.js"></script>
+    <script src="data_languages/languages.js"></script>
   </body>
 </html>
