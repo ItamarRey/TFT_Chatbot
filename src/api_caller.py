@@ -12,7 +12,7 @@ import os
 import sys
 base_path = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'data_validation'))
 sys.path.append(base_path)
-from controlled_environment import *
+from controlled_environment_questions import *
 import configparser
 import re
 warnings.simplefilter("ignore")

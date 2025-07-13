@@ -6,7 +6,7 @@ from system_question_extraction import *
 import json
 import unicodedata
 
-with open("../data/keywords-dataset-plocan.json", "r", encoding="utf-8") as f:
+with open("../data/keywords-dataset-anfi.json", "r", encoding="utf-8") as f:
     bateria_preguntas = json.load(f)
 
 

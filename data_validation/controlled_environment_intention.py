@@ -6,7 +6,7 @@ from chatbot import *
 from model_data_validator import *
 import json
 
-with open("../data/intention-dataset-plocan.json", "r", encoding="utf-8") as f:
+with open("../data/intention-dataset-anfi.json", "r", encoding="utf-8") as f:
     bateria_preguntas = json.load(f)
 
 score = 0
